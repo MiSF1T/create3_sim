@@ -170,7 +170,8 @@ void DriveDistanceBehavior::initialize_goal(
   goal_travel_ = goal.distance;
   travel_distance_sq_ = goal_travel_ * goal_travel_;
   remaining_travel_ = goal_travel_;
-  float max_speed = std::min(translate_speed_, goal.max_translation_speed);
+  float max_speed = std::max(translate_speed_, goal.max_translation_speed);
+  //float max_speed = std::min(translate_speed_, goal.max_translation_speed);
   RCLCPP_INFO(logger_, "DriveDistance with distance %f, max_speed %f", goal.distance, max_speed);
   drive_velocity_cmd_.linear.x = std::copysign(max_speed, goal_travel_);
 }

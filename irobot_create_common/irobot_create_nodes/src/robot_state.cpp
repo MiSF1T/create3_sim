@@ -145,7 +145,12 @@ double RobotState::get_undocked_charge_percentage(const rclcpp::Time & at_time)
     rclcpp::Duration time_moving = at_time - transitioned_to_drive_;
     drain_percentage += time_moving.seconds() * driving_drain_percentage_per_second;
   }
+  // TO DO change: factor for velocity in drain percentage : zi = (xi – min(x)) / (max(x) – min(x)) ; max(x)=0.46, min(x)=0
+  // xi = 0.306; zi = (0.306 - 0) / (0.460 - 0) = 0.6652
+
+
   drain_percentage += off_dock_drive_time_.seconds() * driving_drain_percentage_per_second;
+  //drain_percentage += off_dock_drive_time_.seconds() * driving_drain_percentage_per_second * 0.6652;
   drain_percentage += off_dock_idle_time_.seconds() * idle_drain_percentage_per_second;
   double undocked_charge = last_docked_charge_percentage_ - drain_percentage;
   if (undocked_charge < undocked_charge_limit) {
