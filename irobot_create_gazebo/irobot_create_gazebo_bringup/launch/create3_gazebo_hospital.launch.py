@@ -8,27 +8,26 @@ from launch.actions import DeclareLaunchArgument, IncludeLaunchDescription, SetE
 from launch.launch_description_sources import PythonLaunchDescriptionSource
 from launch.substitutions import EnvironmentVariable, PathJoinSubstitution
 
-
 ARGUMENTS = []
 
 # Set the robot and dock pose close to the wall by default
-for pose_element, default_value in zip(['x', 'y', 'yaw'], ['9.0', '0.0', '0.0']):
+for pose_element, default_value in zip(['x', 'y', 'yaw'], ['0.0', '10.0', '0.0']):
     ARGUMENTS.append(DeclareLaunchArgument(pose_element, default_value=default_value,
                      description=f'{pose_element} component of the robot pose.'))
 
 
 def generate_launch_description():
     # Directories
-    aws_small_house_dir = get_package_share_directory('aws_robomaker_small_house_world')
+    hospital_pkg_dir = get_package_share_directory('aws_robomaker_hospital_world')
     irobot_create_gazebo_bringup_dir = get_package_share_directory('irobot_create_gazebo_bringup')
-
+    
     # Paths
     create3_launch_file = PathJoinSubstitution(
         [irobot_create_gazebo_bringup_dir, 'launch', 'create3_gazebo.launch.py'])
-    world_path = PathJoinSubstitution([aws_small_house_dir, 'worlds', 'small_house.world'])
-    aws_model_path = PathJoinSubstitution([aws_small_house_dir, 'models:'])
+    world_path = PathJoinSubstitution([hospital_pkg_dir, 'worlds', 'hospital.world'])
+    aws_model_path = PathJoinSubstitution([hospital_pkg_dir, 'models:'])
 
-    # Includes
+     # Includes
     world_spawn = IncludeLaunchDescription(
         PythonLaunchDescriptionSource([create3_launch_file]),
         launch_arguments={'world_path': world_path}.items())
@@ -47,13 +46,3 @@ def generate_launch_description():
 
     return ld
 
-
-#def generate_launch_description():
-    hospital_pkg_dir = get_package_share_directory('aws_robomaker_hospital_world')
-    hospital_launch_path = os.path.join(hospital_pkg_dir, 'launch')
-    hospital_world_cmd = IncludeLaunchDescription(
-        PythonLaunchDescriptionSource([hospital_launch_path, '/hospital.launch.py'])
-    )
-    ld = LaunchDescription()
-    ld.add_action(hospital_world_cmd)
-    return ld

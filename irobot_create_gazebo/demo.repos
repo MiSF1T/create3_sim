@@ -3,3 +3,13 @@ repositories:
     type: git
     url: https://github.com/aws-robotics/aws-robomaker-small-house-world.git
     version: ros2
+
+  aws-robomaker-hospital-world:
+    type: git
+    url: https://github.com/aws-robotics/aws-robomaker-hospital-world.git
+    version: ros2  
+
+  Dataset-of-Gazebo-Worlds-Models-and-Maps:
+    type: git
+    url: https://github.com/mlherd/Dataset-of-Gazebo-Worlds-Models-and-Maps.git
+    version: ros2  
